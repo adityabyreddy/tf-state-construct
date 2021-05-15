@@ -1,3 +1,26 @@
+"""
+Intro: Script fetches supported ID formats for the given terraform resource. This will be helpful while importing existing resource into a terraform state file.
+
+Some of the providers resouces have different naming in the registry page compared to the one mentioned in the docs. Mainitaining a knowledge base to manage these mis-matches.
+If you find any resources that has different namings, add an entry to the resource_name_alternatives dict in the following structure.
+
+
+{
+  <provider-name>: {
+    <resource-name>: <alt-resource-name>,
+    <resource-name>: <alt-resource-name>
+  }
+}
+
+Usage: fetch_tf_import_id.py <provider-name> <provider-version> <resource-name>
+
+Eg.
+
+fetch_tf_import_id.py google 3.67.0 google_storage_bucket
+fetch_tf_import_id.py google 3.67.0 google_service_account
+fetch_tf_import_id.py google 3.67.0 google_storage_bucket_iam_member
+"""
+
 import sys
 import urllib3
 import json
@@ -6,17 +29,8 @@ import re
 urllib3.disable_warnings()
 
 HASHICORP_REGISTRY_URL="https://registry.terraform.io"
+
 """
-Some of the google resouces have different naming in the URL compared to the one mentioned in the docs. Mainitaining a knowledge base to manage these mis-matches.
-
-Add if you find any missing entries for various providers using following format,
-
-{
-  <provider-name>: {
-    <resource-name>: <alt-resource-name>,
-    <resource-name>: <alt-resource-name>
-  }
-}
 
 """
 # Knowledge Base
